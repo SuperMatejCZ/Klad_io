@@ -24,5 +24,6 @@ namespace Klad_io
         GameStart = 15,
         Disconnect = 16,
         MapData = 17,
+        GotShot = 18,
     }
 }

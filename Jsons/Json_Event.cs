@@ -30,11 +30,11 @@ namespace Klad_io.Jsons
             public object Data;
         }
 
-        public class Type_Join
+        public class Type_JoinLeave
         {
             public string PlayerName;
 
-            public Type_Join(string _playerName)
+            public Type_JoinLeave(string _playerName)
             {
                 PlayerName = _playerName;
             }
@@ -49,6 +49,25 @@ namespace Klad_io.Jsons
             {
                 PlayerName = _playerName;
                 Text = _message;
+            }
+        }
+
+        //t.KillerId,t.KillerName,t.KilledId,t.KilledName,t.WeaponId
+        public class Type_Kill
+        {
+            public byte KillerId;
+            public string KillerName;
+            public byte KilledId;
+            public string KilledName;
+            public byte WeaponId;
+
+            public Type_Kill(Player killer, Player killed)
+            {
+                KillerId = killer.ID;
+                KillerName = killer.Name;
+                KilledId = killed.ID;
+                KilledName = killed.Name;
+                WeaponId = killer.Weapon;
             }
         }
     }

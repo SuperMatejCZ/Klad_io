@@ -61,6 +61,12 @@ namespace Klad_io
 
                     SendPlayerData(SendTo.All);
 
+                    for (int i = 0; i < Players.Count; i++) {
+                        Player player = Players[i];
+                        if (player.TimeToReload != null && DateTime.Now >= player.TimeToReload)
+                            Reload(player);
+                    }
+
                     Tick += 8; // every 60 pings + 500 ticks, 60 pings every second (63)
 
                     while (watch.Elapsed.TotalMilliseconds < C) { Thread.Sleep(0); }
@@ -69,6 +75,8 @@ namespace Klad_io
 
             private static Thread playerThread;
             private static bool Running;
+
+            static Vector2 SpawnPos = new Vector2(2, 12);
 
             protected override void OnOpen()
             {
@@ -80,7 +88,7 @@ namespace Klad_io
 
                 Console.WriteLine($"[Socket] Player Connected, IP: {Sessions[ID].Context.UserEndPoint}");
 
-                Player player = new Player(new Vector2(2, 12), (byte)rng.Next(0, 256), ID);
+                Player player = new Player(SpawnPos, (byte)rng.Next(0, 256), ID);
                 PlayersToJoin.Add(player);
 
                 AcceptJoin(player, SendTo.One(ID));
@@ -97,8 +105,9 @@ namespace Klad_io
             /*e.prototype.Fire
              (this.PrimaryWeapon.Recoil)*/
 
-            protected override void OnMessage(MessageEventArgs e) 
+            protected override void OnMessage(MessageEventArgs e)
             {
+                Player player = GetPlayerBySocket(ID);
                 if (!e.IsText) {
                     // we only need last 25, others are outdated
                     byte[] Data = new byte[25];
@@ -115,7 +124,6 @@ namespace Klad_io
 
                     reader.Dispose();
 
-                    Player player = GetPlayerBySocket(ID);
 
                     player.AimX = aimX;
                     player.AimY = aimY;
@@ -124,8 +132,8 @@ namespace Klad_io
 
                     if ((keys & 0b_0001_0000) != 0)
                         TryFire(player);
-                    if ((keys & 0b_1100_0000) != 0)
-                        Reload(player);
+                    if ((keys & 0b_0100_0000) != 0)
+                        TryReload(player);
 
                     SendPlayerData(SendTo.All);
                     return;
@@ -140,33 +148,52 @@ namespace Klad_io
                 switch (json.MessageType) {
                     case 1: { // startGame
                             Json_PlayerInit playerInit = data.ToObject<Json_PlayerInit>();
-                            Player player = GetPlayerToJoinBySocket(ID);
-                            player.Name = playerInit.Name;
-                            player.Weapon = playerInit.Weapon;
-                            player.CharacterData0 = (byte)playerInit.CharacterData[0];
-                            player.CharacterData2 = (byte)playerInit.CharacterData[2];
-                            player.CharacterData4 = (byte)playerInit.CharacterData[4];
-                            player.CharacterData6 = (byte)playerInit.CharacterData[6];
-                            player.CharacterData1 = playerInit.CharacterData[1];
-                            player.CharacterData3 = playerInit.CharacterData[3];
-                            player.CharacterData5 = playerInit.CharacterData[5];
-                            player.CharacterData7 = playerInit.CharacterData[7];
 
-                            player.LastTimeShot = DateTime.MinValue;
-                            player.WeaponInfo = GetWeaponById(player.Weapon);
-                            player.Bullets = player.WeaponInfo.ClipSize;
+                            bool newJoin = true;
+                            Player _player = GetPlayerToJoinBySocket(ID);
+                            if (_player == null) {
+                                _player = GetPlayerBySocket(ID);
+                                newJoin = false;
+                            }
+                            _player.Name = playerInit.Name;
+                            _player.Weapon = playerInit.Weapon;
+                            _player.CharacterData0 = (byte)playerInit.CharacterData[0];
+                            _player.CharacterData2 = (byte)playerInit.CharacterData[2];
+                            _player.CharacterData4 = (byte)playerInit.CharacterData[4];
+                            _player.CharacterData6 = (byte)playerInit.CharacterData[6];
+                            _player.CharacterData1 = playerInit.CharacterData[1];
+                            _player.CharacterData3 = playerInit.CharacterData[3];
+                            _player.CharacterData5 = playerInit.CharacterData[5];
+                            _player.CharacterData7 = playerInit.CharacterData[7];
 
-                            PlayersToJoin.Remove(player);
-                            Players.Add(player);
+                            _player.LastTimeShot = DateTime.MinValue;
+                            _player.WeaponInfo = GetWeaponById(_player.Weapon);
+                            _player.Bullets = _player.WeaponInfo.ClipSize;
+                            _player.Health = 100;
+                            _player.Dead = 0;
+                            _player.Pos = SpawnPos;
+                            _player.Velocity = Vector2.Zero;
 
-                            SendEvent(new Json_Event.Type_Join(player.Name), EventType.JoinGame, SendTo.XOne(ID));
+                            if (newJoin) {
+                                PlayersToJoin.Remove(_player);
+                                Players.Add(_player);
+
+                                SendEvent(new Json_Event.Type_JoinLeave(_player.Name), EventType.JoinGame, SendTo.All);
+                            }
                             SendPlayerData(SendTo.All);
                         }
                         break;
                     case 12: { // chat
                             string message = json.Data as string;
-                            Player player = GetPlayerBySocket(ID);
                             SendEvent(new Json_Event.Type_Chat(player.Name, message), EventType.SendChat, SendTo.All);
+                        }
+                        break;
+                    case 18: {
+                            JObject jo = JsonConvert.DeserializeObject(e.Data) as JObject;
+                            byte shotByID = jo["ShotBy"].ToObject<byte>();
+                            Player otherPlayer = GetPlayerByID(shotByID);
+
+                            Damage(player, otherPlayer);
                         }
                         break;
                     default:
@@ -179,21 +206,54 @@ namespace Klad_io
 
             protected override void OnClose(CloseEventArgs e)
             {
-                Players.Remove(GetPlayerBySocket(ID));
+                Leave(GetPlayerBySocket(ID), false);
                 Console.WriteLine($"[Socket] Player Disconnected");
             }
 
 
             private void TryFire(Player player)
             {
-                if ((DateTime.Now - player.LastTimeShot).Milliseconds < player.WeaponInfo.ShotDelay || player.Bullets < 1)
+                if ((DateTime.Now - player.LastTimeShot).TotalMilliseconds < player.WeaponInfo.ShotDelay || player.Bullets < 1 || player.TimeToReload != null)
                     return;
 
                 player.Bullets--;
                 player.BulletsToFire++;
                 player.LastTimeShot = DateTime.Now;
+            }
+            private void TryReload(Player player)
+            {
+                if (player.TimeToReload == null)
+                    player.TimeToReload = DateTime.Now.AddMilliseconds(player.WeaponInfo.ReloadTime);
+            }
+            private void Reload(Player player)
+            {
+                ReloadReady(SendTo.One(player.SocketID));
+                player.TimeToReload = null;
+                player.Bullets = player.WeaponInfo.ClipSize;
+            }
 
-                Console.WriteLine("[FIRE] " + player.Bullets);
+            private void Damage(Player player, Player otherPlayer)
+            {
+                byte weaponDamage = (byte)otherPlayer.WeaponInfo.BulletProperties.Damage;
+                if (player.Health - weaponDamage <= 0)
+                    Kill(player, otherPlayer);
+                else
+                    player.Health -= weaponDamage;
+            }
+            private void Kill(Player player, Player otherPlayer)
+            {
+                SendEvent(new Json_Event.Type_Kill(otherPlayer, player), EventType.KillPlayer, SendTo.All);
+                player.Health = 0;
+                player.Dead = 1;
+                otherPlayer.Killed++;
+            }
+
+            private void Leave(Player player, bool closeSession)
+            {
+                SendEvent(new Json_Event.Type_JoinLeave(player.Name), EventType.LeaveGame, SendTo.All);
+                Players.Remove(player);
+                if (closeSession)
+                    Sessions.CloseSession(player.SocketID);
             }
 
 
@@ -275,11 +335,6 @@ namespace Klad_io
                 Send(buffer, to);
             }
 
-            private void Reload(Player player)
-            {
-                //ReloadReady(SendTo.One(player.SocketID));
-            }
-
             private void Send(string value, SendTo to)
             {
                 if (to.Type == SendToType.One)
@@ -315,6 +370,14 @@ namespace Klad_io
             {
                 for (int i = 0; i < Players.Count; i++)
                     if (Players[i].SocketID == socketID)
+                        return Players[i];
+
+                return null;
+            }
+            private Player GetPlayerByID(byte id)
+            {
+                for (int i = 0; i < Players.Count; i++)
+                    if (Players[i].ID == id)
                         return Players[i];
 
                 return null;

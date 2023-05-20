@@ -22,9 +22,13 @@ namespace Klad_io
         [JsonIgnore]
         public DateTime LastTimeShot;
         [JsonIgnore]
+        public DateTime? TimeToReload;
+        [JsonIgnore]
         public int Bullets;
         [JsonIgnore]
         public WeaponInfo WeaponInfo;
+        [JsonIgnore]
+        public int Killed;
 
         public byte CharacterData0;
         public uint CharacterData1;
@@ -54,10 +58,6 @@ namespace Klad_io
             Velocity = Vector2.Zero;
             ID = _id;
             SocketID = _socketID;
-
-            Health = 100;
-
-            Dead = 0;
         }
     }
 }
