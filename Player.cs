@@ -1,4 +1,5 @@
-﻿using Newtonsoft.Json;
+﻿using System;
+using Newtonsoft.Json;
 using SystemPlus.Vectors;
 
 namespace Klad_io
@@ -15,11 +16,15 @@ namespace Klad_io
         public byte Weapon;
         public byte BulletsToFire;
         public byte Dead;
-        public byte FuelEmit;
-        public byte ResetPosition;
 
-        [JsonIgnoreAttribute]
+        [JsonIgnore]
         public string Name;
+        [JsonIgnore]
+        public DateTime LastTimeShot;
+        [JsonIgnore]
+        public int Bullets;
+        [JsonIgnore]
+        public WeaponInfo WeaponInfo;
 
         public byte CharacterData0;
         public uint CharacterData1;
@@ -29,6 +34,7 @@ namespace Klad_io
         public uint CharacterData5;
         public byte CharacterData6;
         public uint CharacterData7;
+
 
         /*CharacterData:[
 				e.getUint8(o+25),
@@ -49,8 +55,9 @@ namespace Klad_io
             ID = _id;
             SocketID = _socketID;
 
-            Weapon = 1; // M16
             Health = 100;
+
+            Dead = 0;
         }
     }
 }

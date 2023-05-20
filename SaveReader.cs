@@ -78,42 +78,97 @@ namespace Klad_io
 
         public Int16 ReadInt16()
         {
-            return BitConverter.ToInt16(ReadBytes(2), 0);
+            byte[] _ = ReadBytes(2);
+            byte[] b = new byte[2]
+            {
+                _[1],
+                _[0],
+            };
+            return BitConverter.ToInt16(b, 0);
         }
 
         public UInt16 ReadUInt16()
         {
-            return BitConverter.ToUInt16(ReadBytes(2), 0);
+            byte[] _ = ReadBytes(2);
+            byte[] b = new byte[2]
+            {
+                _[1],
+                _[0],
+            };
+            return BitConverter.ToUInt16(b, 0);
         }
 
         public Int32 ReadInt32()
         {
-            return BitConverter.ToInt32(ReadBytes(4), 0);
+            byte[] _ = ReadBytes(4);
+            byte[] b = new byte[4]
+            {
+                _[3],
+                _[2],
+                _[1],
+                _[0],
+            };
+            return BitConverter.ToInt32(b, 0);
         }
 
         public UInt32 ReadUInt32()
         {
-            return BitConverter.ToUInt32(ReadBytes(4), 0);
+            byte[] _ = ReadBytes(4);
+            byte[] b = new byte[4]
+            {
+                _[3],
+                _[2],
+                _[1],
+                _[0],
+            };
+            return BitConverter.ToUInt32(b, 0);
         }
 
         public Int64 ReadInt64()
         {
-            return BitConverter.ToInt64(ReadBytes(8), 0);
+            byte[] _ = ReadBytes(8);
+            byte[] b = new byte[8]
+            {
+                _[7],
+                _[6],
+                _[5],
+                _[4],
+                _[3],
+                _[2],
+                _[1],
+                _[0],
+            };
+            return BitConverter.ToInt64(b, 0);
         }
 
         public UInt64 ReadUInt64()
         {
-            return BitConverter.ToUInt64(ReadBytes(8), 0);
+            byte[] _ = ReadBytes(8);
+            byte[] b = new byte[8]
+            {
+                _[7],
+                _[6],
+                _[5],
+                _[4],
+                _[3],
+                _[2],
+                _[1],
+                _[0],
+            };
+            return BitConverter.ToUInt64(b, 0);
         }
 
-        public string ReadShortString()
+        public float ReadFloat()
         {
-            return Encoding.UTF8.GetString(ReadBytes(ReadUInt16()));
-        }
-
-        public string ReadString()
-        {
-            return Encoding.UTF8.GetString(ReadBytes(ReadInt32()));
+            byte[] _ = ReadBytes(4);
+            byte[] b = new byte[4]
+            {
+                _[3],
+                _[2],
+                _[1],
+                _[0],
+            };
+            return BitConverter.ToSingle(b, 0);
         }
 
         public void Dispose()

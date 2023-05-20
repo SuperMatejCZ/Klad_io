@@ -21,7 +21,7 @@ namespace Klad_io.Jsons
                 Name = player.Name,
                 Ping = 0,
                 Tick = 0,
-                MaxPoints = 0
+                MaxPoints = 25
             };
         }
 
@@ -31,7 +31,7 @@ namespace Klad_io.Jsons
             public byte Weapon;
             public string Name;
             public int Ping;
-            public int Tick;
+            public uint Tick;
             public int MaxPoints;
         }
     }

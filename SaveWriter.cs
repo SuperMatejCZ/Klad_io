@@ -73,53 +73,97 @@ namespace Klad_io
 
         public void WriteInt16(Int16 value)
         {
-            WriteBytes(BitConverter.GetBytes(value));
+            byte[] _ = BitConverter.GetBytes(value);
+            byte[] b = new byte[2]
+            {
+                _[1],
+                _[0]
+            };
+            WriteBytes(b);
         }
 
         public void WriteUInt16(UInt16 value)
         {
-            WriteBytes(BitConverter.GetBytes(value));
+            byte[] _ = BitConverter.GetBytes(value);
+            byte[] b = new byte[2]
+            {
+                _[1],
+                _[0]
+            };
+            WriteBytes(b);
         }
 
         public void WriteInt32(Int32 value)
         {
-            WriteBytes(BitConverter.GetBytes(value));
+            byte[] _ = BitConverter.GetBytes(value);
+            byte[] b = new byte[4]
+            {
+                _[3],
+                _[2],
+                _[1],
+                _[0]
+            };
+            WriteBytes(b);
         }
 
         public void WriteUInt32(UInt32 value)
         {
-            WriteBytes(BitConverter.GetBytes(value));
+            byte[] _ = BitConverter.GetBytes(value);
+            byte[] b = new byte[4]
+            {
+                _[3],
+                _[2],
+                _[1],
+                _[0]
+            };
+            WriteBytes(b);
         }
 
         public void WriteInt64(Int64 value)
         {
-            WriteBytes(BitConverter.GetBytes(value));
+            byte[] _ = BitConverter.GetBytes(value);
+            byte[] b = new byte[8]
+            {
+                _[7],
+                _[6],
+                _[5],
+                _[4],
+                _[3],
+                _[2],
+                _[1],
+                _[0]
+            };
+            WriteBytes(b);
         }
 
         public void WriteUInt64(UInt64 value)
         {
-            WriteBytes(BitConverter.GetBytes(value));
+            byte[] _ = BitConverter.GetBytes(value);
+            byte[] b = new byte[8]
+            {
+                _[7],
+                _[6],
+                _[5],
+                _[4],
+                _[3],
+                _[2],
+                _[1],
+                _[0]
+            };
+            WriteBytes(b);
         }
 
         public void WriteFloat(float value)
         {
-            WriteBytes(BitConverter.GetBytes(value));
-        }
-
-        public void WriteShortString(string value)
-        {
-            byte[] buffer = Encoding.UTF8.GetBytes(value);
-            if (buffer.Length > UInt16.MaxValue)
-                throw new Exception($"value(length:{buffer.Length}) is longer than{UInt16.MaxValue}");
-            WriteUInt16((UInt16)buffer.Length);
-            WriteBytes(buffer);
-        }
-
-        public void WriteString(string value)
-        {
-            byte[] buffer = Encoding.UTF8.GetBytes(value);
-            WriteInt32(buffer.Length);
-            WriteBytes(buffer);
+            byte[] _ = BitConverter.GetBytes(value);
+            byte[] b = new byte[4]
+            {
+                _[3],
+                _[2],
+                _[1],
+                _[0]
+            };
+            WriteBytes(b);
         }
 
         public void Flush() => stream.Flush();

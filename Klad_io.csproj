@@ -59,10 +59,15 @@
     <Reference Include="WindowsFormsIntegration" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="EventType.cs" />
     <Compile Include="Jsons\BaseJson.cs" />
+    <Compile Include="Jsons\BaseSocketJson.cs" />
+    <Compile Include="Jsons\Json_Event.cs" />
     <Compile Include="Jsons\Json_GameStart.cs" />
     <Compile Include="Jsons\Json_JoinAccepted.cs" />
     <Compile Include="Jsons\Json_MapData.cs" />
+    <Compile Include="Jsons\Json_PlayerInit.cs" />
+    <Compile Include="Jsons\Json_ReloadReady.cs" />
     <Compile Include="Log.cs" />
     <Compile Include="MapData.cs" />
     <Compile Include="PingServer.cs" />
