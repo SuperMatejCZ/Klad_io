@@ -34,7 +34,7 @@ namespace Klad_io
         {
             Weapons = JsonConvert.DeserializeObject<WeaponInfo[]>(File.ReadAllText(Program.BasePath + "/assets/weapondata.json"));
 
-            WebSocketServer wssv = new WebSocketServer("ws://127.0.0.1:5002");
+            WebSocketServer wssv = new WebSocketServer("ws://kladio.cz:5002");
 
             wssv.AddWebSocketService<ServerSocket>("/");
             wssv.Start();
@@ -77,6 +77,7 @@ namespace Klad_io
             private static bool Running;
 
             static Vector2 SpawnPos = new Vector2(2, 12);
+            static int RespawnTime = 3; // seconds
 
             protected override void OnOpen()
             {
@@ -155,32 +156,41 @@ namespace Klad_io
                                 _player = GetPlayerBySocket(ID);
                                 newJoin = false;
                             }
-                            _player.Name = playerInit.Name;
-                            _player.Weapon = playerInit.Weapon;
-                            _player.CharacterData0 = (byte)playerInit.CharacterData[0];
-                            _player.CharacterData2 = (byte)playerInit.CharacterData[2];
-                            _player.CharacterData4 = (byte)playerInit.CharacterData[4];
-                            _player.CharacterData6 = (byte)playerInit.CharacterData[6];
-                            _player.CharacterData1 = playerInit.CharacterData[1];
-                            _player.CharacterData3 = playerInit.CharacterData[3];
-                            _player.CharacterData5 = playerInit.CharacterData[5];
-                            _player.CharacterData7 = playerInit.CharacterData[7];
 
-                            _player.LastTimeShot = DateTime.MinValue;
-                            _player.WeaponInfo = GetWeaponById(_player.Weapon);
-                            _player.Bullets = _player.WeaponInfo.ClipSize;
-                            _player.Health = 100;
-                            _player.Dead = 0;
-                            _player.Pos = SpawnPos;
-                            _player.Velocity = Vector2.Zero;
+                            Util.RunAsync(() =>
+                            {
+                                while (_player.TimeToRespawn != null && _player.TimeToRespawn > DateTime.Now)
+                                    Thread.Sleep(0);
 
-                            if (newJoin) {
-                                PlayersToJoin.Remove(_player);
-                                Players.Add(_player);
+                                _player.Name = playerInit.Name;
+                                _player.Weapon = playerInit.Weapon;
+                                _player.CharacterData0 = (byte)playerInit.CharacterData[0];
+                                _player.CharacterData2 = (byte)playerInit.CharacterData[2];
+                                _player.CharacterData4 = (byte)playerInit.CharacterData[4];
+                                _player.CharacterData6 = (byte)playerInit.CharacterData[6];
+                                _player.CharacterData1 = playerInit.CharacterData[1];
+                                _player.CharacterData3 = playerInit.CharacterData[3];
+                                _player.CharacterData5 = playerInit.CharacterData[5];
+                                _player.CharacterData7 = playerInit.CharacterData[7];
 
-                                SendEvent(new Json_Event.Type_JoinLeave(_player.Name), EventType.JoinGame, SendTo.All);
-                            }
-                            SendPlayerData(SendTo.All);
+                                _player.LastTimeShot = DateTime.MinValue;
+                                _player.TimeToRespawn = null;
+                                _player.WeaponInfo = GetWeaponById(_player.Weapon);
+                                _player.Bullets = _player.WeaponInfo.ClipSize;
+                                _player.Health = 100;
+                                _player.Dead = 0;
+                                _player.Pos = SpawnPos;
+                                _player.Velocity = Vector2.Zero;
+
+                                if (newJoin) {
+                                    PlayersToJoin.Remove(_player);
+                                    Players.Add(_player);
+
+                                    SendEvent(new Json_Event.Type_JoinLeave(_player.Name), EventType.JoinGame, SendTo.All);
+                                }
+                                SendPlayerData(SendTo.All);
+                                SendStats(SendTo.All);
+                            });
                         }
                         break;
                     case 12: { // chat
@@ -200,8 +210,6 @@ namespace Klad_io
                         Log.Error($"Unknown message type: {json.MessageType}");
                         break;
                 }
-
-                //data.ToObject<>();
             }
 
             protected override void OnClose(CloseEventArgs e)
@@ -245,7 +253,11 @@ namespace Klad_io
                 SendEvent(new Json_Event.Type_Kill(otherPlayer, player), EventType.KillPlayer, SendTo.All);
                 player.Health = 0;
                 player.Dead = 1;
+                player.Died++;
                 otherPlayer.Killed++;
+                player.TimeToRespawn = DateTime.Now.AddSeconds(RespawnTime);
+                SendRespawnTime(SendTo.One(player.SocketID));
+                SendStats(SendTo.All);
             }
 
             private void Leave(Player player, bool closeSession)
@@ -282,6 +294,16 @@ namespace Klad_io
             {
                 Json_ReloadReady reloadReady = new Json_ReloadReady();
                 SendJson(reloadReady, to);
+            }
+            private void SendRespawnTime(SendTo to)
+            {
+                Json_RespawnTime respawnTime = new Json_RespawnTime() { Data = RespawnTime };
+                SendJson(respawnTime, to);
+            }
+            private void SendStats(SendTo to)
+            {
+                Json_SendStats sendStats = new Json_SendStats(Players);
+                SendJson(sendStats, to);
             }
 
             private void SendJson(object value, SendTo to)

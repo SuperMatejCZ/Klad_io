@@ -68,6 +68,8 @@
     <Compile Include="Jsons\Json_MapData.cs" />
     <Compile Include="Jsons\Json_PlayerInit.cs" />
     <Compile Include="Jsons\Json_ReloadReady.cs" />
+    <Compile Include="Jsons\Json_RespawnTime.cs" />
+    <Compile Include="Jsons\Json_SendStats.cs" />
     <Compile Include="Log.cs" />
     <Compile Include="MapData.cs" />
     <Compile Include="PingServer.cs" />

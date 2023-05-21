@@ -24,11 +24,15 @@ namespace Klad_io
         [JsonIgnore]
         public DateTime? TimeToReload;
         [JsonIgnore]
+        public DateTime? TimeToRespawn;
+        [JsonIgnore]
         public int Bullets;
         [JsonIgnore]
         public WeaponInfo WeaponInfo;
         [JsonIgnore]
         public int Killed;
+        [JsonIgnore]
+        public int Died;
 
         public byte CharacterData0;
         public uint CharacterData1;

@@ -45,6 +45,11 @@ namespace Klad_io
             }
         }
 
+        /*
+         if killed >= points to win
+            GameEnd
+         */
+
         static void HandleRequest(HttpListenerContext context)
         {
             DateTime now = DateTime.Now;

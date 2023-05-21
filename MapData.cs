@@ -25,10 +25,11 @@ namespace Klad_io
                 Polygons = new Polygon[]
                 {
                     new Polygon(new float[] {
-                        -50f, -200f,
-                        -50f, -10f,
-                        800f, -10f,
-                        800f, -200f,
+                        -500f, -200f,
+                        -500f, -10f,
+                        2000f, -10f,
+                        3000f, 80f,
+                        2000f, -200f,
                     }, "ground.png")
                 }
             };

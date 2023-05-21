@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Net;
 using System.Text;
@@ -39,7 +40,11 @@ namespace Klad_io
             HttpListenerResponse response = context.Response;
             string url = request.Url.AbsolutePath;
 
-            Log.Info($" PING \"{url}\" \"{request.Url}\"");
+            StreamReader reader = new StreamReader(request.InputStream);
+            string s = reader.ReadToEnd();
+            reader.Dispose();
+
+            Log.Info($" PING \"{url}\" \"{request.Url}\" " + s);
 
             response.StatusCode = 200;
             response.OutputStream.Flush();

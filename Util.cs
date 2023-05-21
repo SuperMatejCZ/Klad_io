@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 
 namespace Klad_io
@@ -34,6 +35,12 @@ namespace Klad_io
             builder = builder.Append("]");
 
             return builder.ToString();
+        }
+
+        public static void RunAsync(ThreadStart action)
+        {
+            Thread t = new Thread(action);
+            t.Start();
         }
     }
 }
