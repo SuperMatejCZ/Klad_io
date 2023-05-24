@@ -1,5 +1,5 @@
 # Klad_io Server
-Server for online gaem "klad.io"
+Server for online game "klad.io"
 ### Setup
 Download relese and unzip it  
 Run Main server/Klad_io.exe, make sure all settings in config file are correct (DO NOT use backslash in "BasePath")  
