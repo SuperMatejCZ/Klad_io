@@ -8,10 +8,11 @@ namespace Klad_io.Server.Jsons
 {
     public class Json_Config
     {
-        public string MainServerEndpoint;
+        public string MainServerEndPoint;
         public string ServerIp;
         public int ServerPort;
-        public string InfoIp;
+        public string InfoEndPoint;
         public string ServerName;
+        public int KillsToWin;
     }
 }

@@ -1,0 +1,172 @@
+{"frames": {
+
+"aw_Body_Normal_1.png":
+{
+	"frame": {"x":50,"y":33,"w":22,"h":29},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":22,"h":29},
+	"sourceSize": {"w":22,"h":29}
+},
+"aw_Head_Normal_1.png":
+{
+	"frame": {"x":36,"y":98,"w":32,"h":35},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":32,"h":35},
+	"sourceSize": {"w":32,"h":35}
+},
+"dummy_Arm_Normal_1.png":
+{
+	"frame": {"x":18,"y":2,"w":6,"h":17},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":6,"h":17},
+	"sourceSize": {"w":6,"h":17}
+},
+"dummy_Body_Normal_1.png":
+{
+	"frame": {"x":74,"y":33,"w":22,"h":29},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":22,"h":29},
+	"sourceSize": {"w":22,"h":29}
+},
+"dummy_Head_Normal_1.png":
+{
+	"frame": {"x":71,"y":2,"w":24,"h":24},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":24,"h":24},
+	"sourceSize": {"w":24,"h":24}
+},
+"dummy_Leg_Normal_1.png":
+{
+	"frame": {"x":26,"y":2,"w":7,"h":21},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":7,"h":21},
+	"sourceSize": {"w":7,"h":21}
+},
+"fa_Arm_Normal_1.png":
+{
+	"frame": {"x":10,"y":2,"w":6,"h":17},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":6,"h":17},
+	"sourceSize": {"w":6,"h":17}
+},
+"fa_Body_Normal_1.png":
+{
+	"frame": {"x":98,"y":33,"w":22,"h":29},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":22,"h":29},
+	"sourceSize": {"w":22,"h":29}
+},
+"fa_Head_Normal_1.png":
+{
+	"frame": {"x":78,"y":64,"w":32,"h":32},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":32,"h":32},
+	"sourceSize": {"w":32,"h":32}
+},
+"fa_Leg_Normal_1.png":
+{
+	"frame": {"x":47,"y":2,"w":10,"h":22},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":10,"h":22},
+	"sourceSize": {"w":10,"h":22}
+},
+"fu_Arm_Normal_1.png":
+{
+	"frame": {"x":2,"y":2,"w":6,"h":17},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":6,"h":17},
+	"sourceSize": {"w":6,"h":17}
+},
+"fu_Body_Normal_1.png":
+{
+	"frame": {"x":2,"y":33,"w":22,"h":29},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":22,"h":29},
+	"sourceSize": {"w":22,"h":29}
+},
+"fu_Head_Normal_1.png":
+{
+	"frame": {"x":2,"y":98,"w":32,"h":34},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":32,"h":34},
+	"sourceSize": {"w":32,"h":34}
+},
+"fu_Leg_Normal_1.png":
+{
+	"frame": {"x":35,"y":2,"w":10,"h":22},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":10,"h":22},
+	"sourceSize": {"w":10,"h":22}
+},
+"gi_Body_Normal_1.png":
+{
+	"frame": {"x":97,"y":2,"w":22,"h":29},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":22,"h":29},
+	"sourceSize": {"w":22,"h":29}
+},
+"gi_Head_Normal_1.png":
+{
+	"frame": {"x":2,"y":64,"w":39,"h":32},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":39,"h":32},
+	"sourceSize": {"w":39,"h":32}
+},
+"lol_Body_Normal_1.png":
+{
+	"frame": {"x":26,"y":33,"w":22,"h":29},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":22,"h":29},
+	"sourceSize": {"w":22,"h":29}
+},
+"lol_Head_Normal_1.png":
+{
+	"frame": {"x":70,"y":98,"w":32,"h":40},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":32,"h":40},
+	"sourceSize": {"w":32,"h":40}
+},
+"lol_Leg_Normal_1.png":
+{
+	"frame": {"x":59,"y":2,"w":10,"h":24},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":10,"h":24},
+	"sourceSize": {"w":10,"h":24}
+},
+"shout_Head_Normal_1.png":
+{
+	"frame": {"x":43,"y":64,"w":33,"h":32},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":33,"h":32},
+	"sourceSize": {"w":33,"h":32}
+}},
+"meta": {
+	"app": "http://www.codeandweb.com/texturepacker",
+	"version": "1.0",
+	"image": "character_sprites.png",
+	"format": "RGBA8888",
+	"size": {"w":122,"h":140},
+	"scale": "1",
+	"smartupdate": "$TexturePacker:SmartUpdate:3fbe805b629e09b8403821a819440d1b:b28615220c0676899b3b8be067a68a31:8e894627ac99bc16e9cd47b8b4470424$"
+}
+}

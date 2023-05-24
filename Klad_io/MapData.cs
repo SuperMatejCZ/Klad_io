@@ -1,8 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Newtonsoft.Json;
 
 namespace Klad_io
 {
@@ -11,15 +13,12 @@ namespace Klad_io
         public string[] Textures;
         public Polygon[] Polygons;
 
-        public static MapData map0;
-
-        static MapData()
+        public static void Load()
         {
-            map0 = new MapData()
+            MapData exampleMap = new MapData()
             {
                 Textures = new string[]
                 {
-                    "bg.png",
                     "ground.png",
                 },
                 Polygons = new Polygon[]
@@ -33,6 +32,9 @@ namespace Klad_io
                     }, "ground.png")
                 }
             };
+            string exampleMapPath = Program.BasePath + "/exampleMap.json";
+            if (!File.Exists(exampleMapPath))
+                File.WriteAllText(exampleMapPath, JsonConvert.SerializeObject(exampleMap, Formatting.Indented));
         }
     }
 

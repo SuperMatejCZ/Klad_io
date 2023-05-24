@@ -19,10 +19,10 @@ namespace Klad_io.Server
 {
     public static class Server
     {
-        public const int KillsToWin = 5;
-
         public static WeaponInfo[] Weapons;
 
+        private static List<string> maps = new List<string>();
+        private static int currentMapIndex = 0;
 
         private static List<Player> Players = new List<Player>();
         private static List<Player> PlayersToJoin = new List<Player>();
@@ -34,6 +34,18 @@ namespace Klad_io.Server
         public static void Start(string ip, int port)
         {
             Weapons = JsonConvert.DeserializeObject<WeaponInfo[]>(File.ReadAllText(Program.BasePath + "/assets/weapondata.json"));
+
+            string[] files = Directory.GetFiles(Program.BasePath + "/data/maps");
+            for (int i = 0; i < files.Length; i++)
+                if (Path.GetExtension(files[i]) == ".json")
+                    maps.Add(Path.GetFileNameWithoutExtension(files[i]));
+
+            if (maps.Count < 1) {
+                Logger.Error($"Not maps in {Program.BasePath + "/data/maps/"}");
+                Logger.PressAnyKey("", true);
+            }
+
+            Logger.Info($"Loaded {maps.Count} maps");
 
             WebSocketServer wssv = new WebSocketServer($"ws://{ip}:{port}");
 
@@ -81,6 +93,7 @@ namespace Klad_io.Server
 
             static Vector2 SpawnPos = new Vector2(2, 12);
             static int RespawnTime = 3; // seconds
+            static bool gameWon;
 
             protected override void OnOpen()
             {
@@ -92,7 +105,7 @@ namespace Klad_io.Server
                     Program.playerCount = () => Players.Count;
                 }
 
-                Console.WriteLine($"[Socket] Player Connected, IP: {Sessions[ID].Context.UserEndPoint}");
+                Logger.Info($"Player Connected, IP: {Sessions[ID].Context.UserEndPoint}");
 
                 Player player = new Player(SpawnPos, (byte)rng.Next(0, 256), ID);
                 PlayersToJoin.Add(player);
@@ -104,7 +117,7 @@ namespace Klad_io.Server
 
             protected override void OnError(WebSocketSharp.ErrorEventArgs e)
             {
-                Console.WriteLine($"[Socket] Error: {e.Message}");
+                Logger.Error(e.Message);
                 Logger.Exception(e.Exception);
             }
 
@@ -144,7 +157,6 @@ namespace Klad_io.Server
                     SendPlayerData(SendTo.All);
                     return;
                 }
-                Console.WriteLine("[Socket] Received message: " + e.Data);
 
                 BaseSocketJson json = JsonConvert.DeserializeObject<BaseSocketJson>(e.Data);
                 JObject data = json.Data as JObject;
@@ -212,15 +224,16 @@ namespace Klad_io.Server
                         }
                         break;
                     default:
-                        Log.Error($"Unknown message type: {json.MessageType}");
+                        Logger.Error($"Unknown message type: {json.MessageType}");
                         break;
                 }
             }
 
             protected override void OnClose(CloseEventArgs e)
             {
-                Leave(GetPlayerBySocket(ID), false);
-                Console.WriteLine($"[Socket] Player Disconnected");
+                Player player = GetPlayerBySocket(ID);
+                Leave(player, false);
+                Logger.Info($"Player Disconnected, Name: {player.Name}");
             }
 
 
@@ -255,31 +268,44 @@ namespace Klad_io.Server
             }
             private void Kill(Player player, Player otherPlayer)
             {
+                if (gameWon)
+                    return;
                 SendEvent(new Json_Event.Type_Kill(otherPlayer, player), EventType.KillPlayer, SendTo.All);
                 player.Health = 0;
                 player.Dead = 1;
                 player.Died++;
                 otherPlayer.Killed++;
                 player.TimeToRespawn = DateTime.Now.AddSeconds(RespawnTime);
+                SendPlayerData(SendTo.One(player.SocketID));
                 SendRespawnTime(SendTo.One(player.SocketID));
                 SendStats(SendTo.All);
 
-                Logger.Socket($"{otherPlayer.Name} killed {player.Name} with {otherPlayer.WeaponInfo.Name}");
+                Logger.Debug($"{otherPlayer.Name} killed {player.Name} with {otherPlayer.WeaponInfo.Name}");
 
-                if (otherPlayer.Killed >= KillsToWin)
+                if (otherPlayer.Killed >= Program.Config.KillsToWin)
                     Win(otherPlayer);
             }
 
             private void Win(Player player)
             {
+                if (gameWon)
+                    return;
+                gameWon = true;
                 EndGame(player, SendTo.All);
                 Util.RunAsync(() =>
                 {
                     DateTime startTime = DateTime.Now.AddSeconds(5);
                     while (DateTime.Now < startTime)
                         Thread.Sleep(0);
+
+                    // cycle though maps
+                    currentMapIndex++;
+                    if (currentMapIndex >= maps.Count)
+                        currentMapIndex = 0;
+
                     ResetData();
                     StartGame(SendTo.All);
+                    gameWon = false;
                 });
             }
 
@@ -289,6 +315,14 @@ namespace Klad_io.Server
                     Player player = Players[i];
                     player.Died = 0;
                     player.Killed = 0;
+                    player.LastTimeShot = DateTime.MinValue;
+                    player.TimeToRespawn = null;
+                    player.WeaponInfo = GetWeaponById(player.Weapon);
+                    player.Bullets = player.WeaponInfo.ClipSize;
+                    player.Health = 100;
+                    player.Dead = 0;
+                    player.Pos = SpawnPos;
+                    player.Velocity = Vector2.Zero;
                 }
             }
 
@@ -303,7 +337,7 @@ namespace Klad_io.Server
 
             private void StartGame(SendTo to)
             {
-                Json_GameStart gameStart = new Json_GameStart("Default0");
+                Json_GameStart gameStart = new Json_GameStart(maps[currentMapIndex]);
                 SendJson(gameStart, to);
             }
             private void EndGame(Player player, SendTo to)
@@ -319,7 +353,7 @@ namespace Klad_io.Server
             }
             private void SendMapData(SendTo to)
             {
-                Json_MapData mapData = new Json_MapData("Default0");
+                Json_MapData mapData = new Json_MapData(maps[currentMapIndex]);
                 SendJson(mapData, to);
             }
             private void SendEvent(object value, EventType eventType, SendTo to)

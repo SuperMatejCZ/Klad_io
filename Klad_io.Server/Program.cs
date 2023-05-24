@@ -22,16 +22,19 @@ namespace Klad_io.Server
 
         static async Task Main(string[] args)
         {
+            Console.ResetColor();
+
             string configPath = CurrentDirectory + "/config.json";
 
             if (!File.Exists(configPath)) {
                 File.WriteAllText(configPath, JsonConvert.SerializeObject(new Json_Config()
                 {
-                    MainServerEndpoint = "127.0.0.1:80",
+                    MainServerEndPoint = "127.0.0.1:80",
                     ServerIp = "127.0.0.1",
                     ServerPort = 5002,
-                    InfoIp = "127.0.0.1:5003",
+                    InfoEndPoint = "127.0.0.1:5003",
                     ServerName = "Europe",
+                    KillsToWin = 25
                 }, Formatting.Indented));
                 Log.Info($"Config file ({configPath}) was created, make sure that all settings are correct");
                 Log.PressAnyKey();
@@ -39,7 +42,7 @@ namespace Klad_io.Server
 
             Config = JsonConvert.DeserializeObject<Json_Config>(File.ReadAllText(configPath));
 
-            InfoServer.Start(int.Parse(Config.InfoIp.Split(':')[1]));
+            InfoServer.Start(int.Parse(Config.InfoEndPoint.Split(':')[1]));
 
             client = new HttpClient();
 
@@ -48,14 +51,14 @@ namespace Klad_io.Server
                 Name = Config.ServerName,
                 Ip = Config.ServerIp,
                 Port = Config.ServerPort,
-                InfoIp = Config.InfoIp,
+                InfoIp = Config.InfoEndPoint,
                 WS = $"ws://{Config.ServerIp}:{Config.ServerPort}",
                 RoomCount = 1,
             };
 
             HttpResponseMessage response = null;
             try {
-                response = await client.PostAsync("http://" + Config.MainServerEndpoint + "/registerServer",
+                response = await client.PostAsync("http://" + Config.MainServerEndPoint + "/registerServer",
                     new StringContent(JsonConvert.SerializeObject(registerRequest), Encoding.UTF8, "application/json"));
             } catch (Exception ex) {
                 Log.Error("Failed to register to main server");

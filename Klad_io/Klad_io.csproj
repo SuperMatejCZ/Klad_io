@@ -59,6 +59,7 @@
     <Reference Include="WindowsFormsIntegration" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Jsons\Json_Config.cs" />
     <Compile Include="Jsons\Json_GetRoom.cs" />
     <Compile Include="Jsons\Json_GetServer.cs" />
     <Compile Include="Jsons\ServerInfo.cs" />

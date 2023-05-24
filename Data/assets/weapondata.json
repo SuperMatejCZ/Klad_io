@@ -1,0 +1,155 @@
+[{
+    "Id": 1,
+    "Order": 6,
+    "Name": "M16",
+    "BulletProperties": {
+        "Size": [0.01, 0.01],
+        "Mass": 0.01,
+        "Damage": 24,
+        "SpritePath": "bullet_yellow.png",
+        "Speed": 15,
+        "SpriteSize": [1, 4],
+        "Tint": 16777215
+    },
+    "ClipSize": 30,
+    "ReloadTime": 2500,
+    "ShotDelay": 90,
+    "SpritePath": "m16.png",
+    "SFX": "m16.ogg",
+    "ReloadSFX": "m16_reload.ogg",
+    "Scale": "0.25",
+    "Position": {
+        "x": -4,
+        "y": 8
+    },
+    "Recoil": 0
+}, {
+    "Id": 3,
+    "Order": 5,
+    "Name": "AK47",
+    "BulletProperties": {
+        "Size": [0.01, 0.01],
+        "Mass": 0.02,
+        "Damage": 26,
+        "SpritePath": "bullet_yellow.png",
+        "Speed": 30,
+        "SpriteSize": [1, 4],
+        "Tint": 16776960
+    },
+    "ClipSize": 40,
+    "ReloadTime": 4000,
+    "ShotDelay": 100,
+    "SpritePath": "ak47.png",
+    "SFX": "ak47.ogg",
+    "ReloadSFX": "m16_reload.ogg",
+    "Scale": "0.25",
+    "Position": {
+        "x": -5,
+        "y": -2
+    },
+    "Recoil": 0
+}, {
+    "Id": 4,
+    "Order": 7,
+    "Name": "AWP",
+    "BulletProperties": {
+        "Size": [0.01, 0.01],
+        "Mass": 0.02,
+        "Damage": 152,
+        "SpritePath": "bullet_awp.png",
+        "Speed": 75,
+        "SpriteSize": [1.2, 8],
+        "Tint": 16777215
+    },
+    "ClipSize": 10,
+    "ReloadTime": 5000,
+    "ShotDelay": 4500,
+    "SpritePath": "awp.png",
+    "SFX": "awp.ogg",
+    "ReloadSFX": "awp_reload.ogg",
+    "Scale": "0.3",
+    "Position": {
+        "x": 0,
+        "y": 0
+    },
+    "Recoil": 0
+}, {
+    "Id": 5,
+    "Order": 2,
+    "Name": "Shotgun",
+    "BulletProperties": {
+        "Size": [0.01, 0.01],
+        "Mass": 0.02,
+        "Damage": 12,
+        "SpritePath": "benellim3.png",
+        "Speed": 22,
+        "SpriteSize": [1, 3],
+        "Tint": 16777215
+    },
+    "ClipSize": 8,
+    "ReloadTime": 5200,
+    "ShotDelay": 800,
+    "SpritePath": "benellim3.png",
+    "SFX": "shotgun.ogg",
+    "ReloadSFX": "shotgun_reload.ogg",
+    "Scale": "0.25",
+    "Position": {
+        "x": -5,
+        "y": 6
+    },
+    "ReloadType": 2,
+    "ParticleCount": 10,
+    "Spread": 10,
+    "Recoil": 3
+
+}, {
+    "Id": 6,
+    "Order": 3,
+    "Name": "P90",
+    "BulletProperties": {
+        "Size": [0.01, 0.01],
+        "Mass": 0.01,
+        "Damage": 15,
+        "SpritePath": "bullet_yellow.png",
+        "Speed": 12,
+        "SpriteSize": [1, 5],
+        "Tint": 16777215
+    },
+    "ClipSize": 50,
+    "ReloadTime": 3000,
+    "ShotDelay": 70,
+    "SpritePath": "p90.png",
+    "SFX": "p90.ogg",
+    "ReloadSFX": "p90_reload.ogg",
+    "Scale": "0.15",
+    "Position": {
+        "x": -5,
+        "y": 15
+    },
+    "Recoil": 0
+}, {
+    "Id": 7,
+    "Order": 1,
+    "Name": "Magnum",
+    "BulletProperties": {
+        "Size": [0.01, 0.01],
+        "Mass": 0.01,
+        "Damage": 45,
+        "SpritePath": "bullet_yellow.png",
+        "Speed": 18,
+        "SpriteSize": [1, 7],
+        "Tint": 16777215
+    },
+    "ClipSize": 6,
+    "ReloadTime": 1500,
+    "ShotDelay": 500,
+    "SpritePath": "magnum.png",
+    "SFX": "magnum.ogg",
+    "ReloadSFX": "magnum_reload.ogg",
+    "Scale": "0.10",
+    "Position": {
+        "x": -6,
+        "y": 26
+    },
+    "Recoil": 0
+}]

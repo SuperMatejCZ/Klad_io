@@ -18,20 +18,41 @@ namespace Klad_io
     {
         static HttpListener listener;
         internal static TcpClient client = new TcpClient();
-        public static readonly string BasePath = @"E:\download\websites\klad.io";
+        public static string BasePath;
 
         static List<ServerInfo> servers = new List<ServerInfo>();
 
+        internal static Json_Config Config;
+
         static void Main(string[] args)
         {
+            Console.ResetColor();
+
+            string configPath = Environment.CurrentDirectory + "/config.json";
+            if (!File.Exists(configPath)) {
+                File.WriteAllText(configPath, JsonConvert.SerializeObject(new Json_Config()
+                {
+                    BasePath = "C:/klad.io/Data",
+                    Port = 80,
+                }));
+                Log.Info($"Config file ({configPath}) was created, make sure all settings are correct");
+                Log.PressAnyKey();
+            }
+
+            Config = JsonConvert.DeserializeObject<Json_Config>(File.ReadAllText(configPath));
+
+            BasePath = Config.BasePath;
+
+            MapData.Load();
+
             listener = new HttpListener();
-            listener.Prefixes.Add("http://*:80/");
+            listener.Prefixes.Add($"http://*:{Config.Port}/");
             listener.Start();
 
             Thread t = new Thread(Loop);
             t.Start();
 
-            Console.WriteLine("Server started");
+            Log.Info("Server started");
 
             while (true) { Thread.Sleep(0); }
         }
@@ -142,23 +163,30 @@ namespace Klad_io
                     RespJson(registerResponse);
                     Log.Info($"Server registered itself Name: {registerRequest.Name}, Ip: {registerRequest.Ip}:{registerRequest.Port}");
                     break;
-                case "/data/maps/Default0":
-                    RespJson(MapData.map0);
-                    break;
                 default: {
-                        string path = BasePath + url;
-                        check:
-                        if (File.Exists(path)) {
-                            RespFile(path);
+                        if (url.StartsWith("/data/maps/")) {
+                            string path = BasePath + url + ".json";
+                            if (File.Exists(path))
+                                RespFile(path);
+                            else {
+                                Log.Error($"File (map) wasn't found. {path}");
+                                RespNotFound();
+                            }
                         }
                         else {
-                            if (!url.Contains(".")) {
-                                path += "/index.html";
-                                url += "/index.html";
-                                goto check;
+                            string path = BasePath + url;
+                            check:
+                            if (File.Exists(path))
+                                RespFile(path);
+                            else {
+                                if (!url.Contains(".")) {
+                                    path += "/index.html";
+                                    url += "/index.html";
+                                    goto check;
+                                }
+                                Log.Error($"File not found: {path}");
+                                RespNotFound();
                             }
-                            Log.Error($"File not found: {path}");
-                            RespNotFound();
                         }
                     }
                     break;

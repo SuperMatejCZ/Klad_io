@@ -48,11 +48,6 @@ namespace Klad_io.Server
             }
         }
 
-        public static void Socket(string value)
-        {
-            Print($"[Socket] {value}");
-        }
-
         public static void PressAnyKey(string message = "", bool exit = false)
         {
             lock (LockObj) {

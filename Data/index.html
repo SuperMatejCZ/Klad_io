@@ -1,0 +1,326 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+	<meta charset="utf-8" />
+	<title>Klad.io</title>
+	<meta name="description" content=”Klad.io - 2D Multiplayer Shooter Game”>
+	<link rel="stylesheet" href="/assets/font/font.css">
+<script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+<script>
+  (adsbygoogle = window.adsbygoogle || []).push({
+    google_ad_client: "ca-pub-3842382104365598",
+    enable_page_level_ads: true
+  });
+</script>
+</head>
+
+<body>
+	<style>
+		body {
+			margin: 0;
+			font-family: 'dejavu_sans_monobook'
+		}
+
+		#menudiv {
+			position: absolute;
+			z-index: 10;
+			display: none;
+		}
+
+		#menudiv label {
+			color: white;
+			font-size: 24px;
+			font-family: dejavu_sans_monobook;
+			margin-right: 18px;
+		}
+
+		#menudiv input {
+			font-size: 24px;
+			width: 260px;
+		}
+
+		#loading {
+			position: absolute;
+			left: 0;
+			top: 0;
+			z-index: 1000;
+			width: 100%;
+			height: 100%;
+			background: black;
+			color: white;
+			text-align: center;
+		}
+
+		#loading h1 {
+			padding-top: 200px;
+			padding-bottom: 100px;
+		}
+
+		#loading p {
+			font-size: 32px;
+		}
+
+		#aboutdiv {
+			position: absolute;
+			z-index: 20;
+			display: none;
+			width: 600px;
+			height: 610px;
+			background-color: black;
+			color: white;
+			text-align: center;
+			line-height: 26px;
+			padding: 20px
+		}
+
+		#aboutdiv div {
+			overflow: auto;
+			height: 600px;
+		}
+
+		#aboutdiv img {
+			margin: 10px;
+			max-width: 300px;
+			max-height: 150px;
+		}
+
+		a {
+			text-decoration: none;
+			outline: none;
+			color: white;
+		}
+
+		#reqbrowser {
+			position: absolute;
+			left: 0;
+			top: 0;
+			z-index: 1005;
+			width: 100%;
+			height: 100%;
+			background: black;
+			color: white;
+			text-align: center;
+			display: none;
+		}
+
+		#reqbrowser h1 {
+			margin-top: 100px;
+		}
+
+		#reqbrowser img {
+			margin-top: 50px;
+			max-width: 200px;
+		}
+
+		#reqbrowser a {
+			cursor: pointer;
+		}
+
+		.description h3 {
+			color: white;
+			font-size: 24px;
+			text-align: center;
+		}
+
+		.description {
+			color: white;
+			font-size: 12px;
+			text-align: center;
+		}
+
+		.description div {
+			color: white;
+			font-size: 14px;
+			font-weight: bold;
+			text-align: center;
+			margin-bottom: 10px;
+		}
+
+		.description div p {
+			color: white;
+			font-size: 14px;
+			text-align: left;
+
+			margin-left: 30px;
+		}
+
+		.links {
+			text-align: center;
+			/*Position: absolute;*/
+			width: 100%;
+			Bottom: 0;
+			Height: 24px;
+			/*Left: calc(50% - 100px);*/
+			/*z-index: 10;*/
+			/*background-color: rgba(0, 0, 0, 0.6);*/
+			color: white
+		}
+
+		.kladad {
+			right: 10px;
+			top: 100px;
+			position: fixed;
+			z-index: 30;
+			background-color: rgba(0, 0, 0, 1.0);
+			border-radius: 10px;
+			padding: 20px;
+		}
+
+		@media (max-width: 1260px),
+		(max-height: 500px) {
+			.kladad {
+				visibility: hidden;
+			}
+		}
+
+		.styled-select {
+			border: 1px solid #000;
+			font-size: 14px;
+			color: #fff;
+			background: #444;
+			padding: 5px;
+			width: 120px;
+		}
+	</style>
+	<div id="loading">
+		<h1>
+			Loading...
+			</h5>
+			<p>
+			</p>
+	</div>
+	<div id="content"></div>
+	<div id="menudiv">
+		<label>Name</label> <input type="text" id="name" />
+		<select id="servers" class="styled-select">
+			<option value='0' selected>Finding best server...</option>
+		</select>
+		<select id="maplist" class="styled-select" style="display:none;">
+		</select>
+	</div>
+	<div id="aboutdiv">
+		<div>
+			<h1>klad.io</h1>
+			<a href="mailto:info@klad.io">
+				<h4>info@klad.io</h4>
+			</a>
+			<p><b>Made With <span style="color:red">&#10084;</span>
+				<br> and</b>
+				<br>
+				<a href="http://www.pixijs.com" target="_blank"><img src="/assets/about/pixijs-v4-logo.png">
+				</a>
+				<br>
+				<a href="https://github.com/kripken/box2d.js" target="_blank"><img src="/assets/about/Box2d.png">
+				</a>
+				<br>
+				<a href="https://nodejs.org" target="_blank"><img src="/assets/about/nodejs.png">
+				</a>
+				<br> <b>written in</b>
+				<br>
+				<a href="https://www.typescriptlang.org" target="_blank"><img src="/assets/about/typescript_logo.png"></a>
+				<br> <b>coded with</b>
+				<br>
+				<a href="https://code.visualstudio.com" target="_blank"><img src="/assets/about/vscode.png"></a>
+			</p>
+			<p>
+				Map design by <b>iskender</b>
+			</p>
+			<p>
+				<b>Used assets</b>
+				<br> <b>Forest Pack</b>
+				<br>Tio Aimar @ opengameart.org
+				<br><b>Sounds</b>
+				<br><a href="https://www.freesound.org" target="_blank">freesound.org</a>
+				<br><a href="http://soundbible.com" target="_blank">soundbible.com</a>
+				<br><a href="http://soundfxcenter.com" target="_blank">soundfxcenter.com</a>
+			</p>
+		</div>
+		<a style="cursor: pointer;margin-top: 10px;"><b>CLOSE</b></a>
+	</div>
+	<!--<div id="reqbrowser">-->
+	</div>
+	<template id="tmpreqbrowser">
+		<div>
+			<h1>Supported Browsers</h1>
+			<a href="https://www.google.com/chrome" target="_blank"><img src="/assets/browsers/chrome.png" alt="Chrome"></a>
+			<a href="https://chromium.woolyss.com" target="_blank"><img src="/assets/browsers/chromium.png" alt="Chromium"></a>
+			<a href="https://www.mozilla.org/firefox" target="_blank"><img src="/assets/browsers/firefox.png" alt="Firefox"></a>
+			<a id="reqbrowsercontinue">
+				<h2>Your browser detected as "<span id="detectedbrowser"></span>"</h2>
+				<h2>Click to Continue</h2>
+			</a>
+		</div>
+	</template>
+	<footer>
+
+	</footer>
+	<!--<div id="announcement"><img src="/assets/announce.jpg" />-->
+	</div>
+	<div class="kladad">
+		<!-- /421469808/KLD_klad.io_300x250 -->
+		<div id='div-gpt-ad-1493203881231-0' style='height:250px; width:300px;'>
+		</div>
+		<div class="description">
+			<h2>Klad.io</h2>
+			<div>
+				<span>- 2D Multiplayer Shooter Game -<span>
+				<p>
+					<br>Move: WASD / Arrow Keys
+					<br>Fire: Left Mouse Button
+					<br>Jetpack: Right Mouse Button
+					<br>Reload: R
+					<br>Stats: Tab
+					<br>Chat: T
+					<br>Mute: M
+				</p>
+			</div>
+		</div>
+		<div class="links">
+			<a href="/privacy" target="_blank">Privacy</a> /
+			<a href="http://karamurat.org" target="_blank">Blog</a> /
+			<a href="mailto:info@klad.io">Contact</a>
+		</div>
+	</div>
+	<div id="preroll"></div>
+	<script async='async' src='https://www.googletagservices.com/tag/js/gpt.js'></script>
+	<script>
+		var googletag = googletag || {};
+		googletag.cmd = googletag.cmd || [];
+	</script>
+
+	<script>
+		googletag.cmd.push(function () {
+			googletag.defineSlot('/421469808/KLD_klad.io_300x250', [300, 250], 'div-gpt-ad-1493203881231-0').addService(
+				googletag.pubads());
+			googletag.pubads().enableSingleRequest();
+			googletag.enableServices();
+		});
+	</script>
+
+	<script>
+		googletag.cmd.push(function () {
+			googletag.display('div-gpt-ad-1493203881231-0');
+		});
+	</script>
+
+	<script>
+		(function (i, s, o, g, r, a, m) {
+			i['GoogleAnalyticsObject'] = r;
+			i[r] = i[r] || function () {
+				(i[r].q = i[r].q || []).push(arguments)
+			}, i[r].l = 1 * new Date();
+			a = s.createElement(o),
+				m = s.getElementsByTagName(o)[0];
+			a.async = 1;
+			a.src = g;
+			m.parentNode.insertBefore(a, m)
+		})(window, document, 'script', 'https://www.google-analytics.com/analytics.js', 'ga');
+
+		ga('create', 'UA-88632282-1', 'auto');
+		ga('send', 'pageview');
+	</script>
+<script type="text/javascript" src="main_48274af27a8a36454781.js"></script>
+</body>
+
+</html>

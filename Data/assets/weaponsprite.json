@@ -1,0 +1,108 @@
+{"frames": {
+
+"ak47.png":
+{
+	"frame": {"x":0,"y":469,"w":256,"h":83},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":256,"h":83},
+	"sourceSize": {"w":256,"h":83}
+},
+"awp.png":
+{
+	"frame": {"x":0,"y":238,"w":252,"h":59},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":252,"h":59},
+	"sourceSize": {"w":252,"h":59}
+},
+"benellim3.png":
+{
+	"frame": {"x":0,"y":552,"w":256,"h":62},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":256,"h":62},
+	"sourceSize": {"w":256,"h":62}
+},
+"bullet_awp.png":
+{
+	"frame": {"x":134,"y":0,"w":70,"h":12},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":70,"h":12},
+	"sourceSize": {"w":70,"h":12}
+},
+"bullet_rocket.png":
+{
+	"frame": {"x":34,"y":0,"w":50,"h":30},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":50,"h":30},
+	"sourceSize": {"w":50,"h":30}
+},
+"bullet_yellow.png":
+{
+	"frame": {"x":0,"y":0,"w":34,"h":12},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":34,"h":12},
+	"sourceSize": {"w":34,"h":12}
+},
+"m16.png":
+{
+	"frame": {"x":0,"y":401,"w":256,"h":68},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":256,"h":68},
+	"sourceSize": {"w":256,"h":68}
+},
+"machinegun.png":
+{
+	"frame": {"x":0,"y":134,"w":232,"h":104},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":232,"h":104},
+	"sourceSize": {"w":232,"h":104}
+},
+"magnum.png":
+{
+	"frame": {"x":0,"y":614,"w":256,"h":128},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":256,"h":128},
+	"sourceSize": {"w":256,"h":128}
+},
+"p90.png":
+{
+	"frame": {"x":0,"y":297,"w":256,"h":104},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":256,"h":104},
+	"sourceSize": {"w":256,"h":104}
+},
+"rocketlauncher.png":
+{
+	"frame": {"x":0,"y":30,"w":232,"h":104},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":232,"h":104},
+	"sourceSize": {"w":232,"h":104}
+},
+"trail.png":
+{
+	"frame": {"x":84,"y":0,"w":50,"h":1},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":50,"h":1},
+	"sourceSize": {"w":50,"h":1}
+}},
+"meta": {
+	"app": "http://www.codeandweb.com/texturepacker",
+	"version": "1.0",
+	"image": "weaponsprite.png",
+	"format": "RGBA8888",
+	"size": {"w":256,"h":742},
+	"scale": "1",
+	"smartupdate": "$TexturePacker:SmartUpdate:df12836a74e84d6b4eb29f15cd7a04cd:af736dd5a824a53d98679d02026a4ef5:9cfcfc294b10e1976cd340705dedbd36$"
+}
+}

@@ -43,19 +43,6 @@ namespace Klad_io.Server
         public byte CharacterData6;
         public uint CharacterData7;
 
-
-        /*CharacterData:[
-				e.getUint8(o+25),
-				e.getUint32(o+26),
-				e.getUint8(o+30),
-				e.getUint32(o+31),
-				e.getUint8(o+35),
-				e.getUint32(o+36),
-				e.getUint8(o+40),
-				e.getUint32(o+41)
-				]
-			};*/
-
         public Player(Vector2 _pos, byte _id, string _socketID)
         {
             Pos = _pos;

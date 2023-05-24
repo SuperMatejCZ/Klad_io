@@ -21,7 +21,7 @@ namespace Klad_io.Server.Jsons
                 Name = player.Name,
                 Ping = 0,
                 Tick = 0,
-                MaxPoints = Server.KillsToWin
+                MaxPoints = Program.Config.KillsToWin
             };
         }
 

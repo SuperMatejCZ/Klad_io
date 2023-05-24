@@ -1,0 +1,36 @@
+[{
+    "Name": "Dummy",
+    "SpritePrefix": "dummy",
+    "Color": true,
+    "Parts": [true, true, true, true]
+}, {
+    "Name": "Forever",
+    "SpritePrefix": "fa",
+    "Color": false,
+    "Parts": [true, true, true, true]
+}, {
+    "Name": "Fuuu",
+    "SpritePrefix": "fu",
+    "Color": false,
+    "Parts": [true, true, true, true]
+}, {
+    "Name": "Awkward",
+    "SpritePrefix": "aw",
+    "Color": false,
+    "Parts": [true, true, false, false]
+}, {
+    "Name": "Giggle",
+    "SpritePrefix": "gi",
+    "Color": false,
+    "Parts": [true, true, false, false]
+}, {
+    "Name": "Lol",
+    "SpritePrefix": "lol",
+    "Color": false,
+    "Parts": [true, true, false, true]
+}, {
+    "Name": "Shout",
+    "SpritePrefix": "shout",
+    "Color": false,
+    "Parts": [true, false, false, false]
+}]

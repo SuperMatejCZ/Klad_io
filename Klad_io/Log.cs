@@ -40,9 +40,17 @@ namespace Klad_io
             Console.ResetColor();
         }
 
-        public static void Socket(string message)
+        public static void PressAnyKey(string message = "", bool exit = false)
         {
-            Print($"[Socket] {message}");
+            string mes;
+            if (exit)
+                mes = message == "" ? "Press any key to exit..." : $"{message}, press any key to exit...";
+            else
+                mes = message == "" ? "Press any key to continue..." : $"{message}, press any key to continue...";
+            Console.WriteLine(mes);
+            Console.ReadKey(true);
+            if (exit)
+                Environment.Exit(-1);
         }
     }
 }
